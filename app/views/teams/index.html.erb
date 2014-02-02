@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Roster</th>
       <th></th>
       <th></th>
       <th></th>
@@ -13,13 +14,27 @@
   <tbody>
     <% @teams.each do |team| %>
       <tr>
-        <td><%= team.name %><select name="playerlist">
-        <% @players.each do |player| %>
-        <option value="<%= player.id%>"> <%= player.name %> <%= player.homeruns %> </option>
-      <% end %>
-      </select>
+        <td>
+          <%= team.name %>
+          <%= form_tag(addplayer_team_path(team), method: :post) do %>
+            <%= hidden_field_tag :team_id, team.id %>
+            <select name="player_id">
+              <% @players.each do |player| %>
+              <option value="<%= player.id%>"> <%= player.name %> <%= player.homeruns %> </option>
+              <% end %>
+            </select>
+            <input type="submit" value="add player" />
+          <% end %>
 
         </td>
+        <th>
+          <ul>
+            <% team.players.each do |p| %>
+            <li><%= p.name %></li>
+            <% end %>
+          </ul>
+        </th>
+
         <td><%= link_to 'Show', team %></td>
         <td><%= link_to 'Edit', edit_team_path(team) %></td>
         <td><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %></td>

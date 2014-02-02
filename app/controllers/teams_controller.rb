@@ -63,8 +63,10 @@ class TeamsController < ApplicationController
   end
 
   def addplayer
-    puts "********* #{params.inspect}"
-
+    team_member = TeamMember.new({player_id: params[:player_id], team_id: params[:team_id]})
+    if team_member.save
+      redirect_to teams_path
+    end
   end
 
   private
